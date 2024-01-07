@@ -20,8 +20,8 @@ Performance tests are conducted by sending 100 HTTP GET requests to a specific w
 | Language   | Library/Packet    | Average Response Time |
 | ---------- | ----------------- | --------------------: |
 | TypeScript | untici            |                  - ms |
-| Go         | net/http          |                  - ms |
-| Rust       | reqwest           |                  - ms |
+| Go         | net/http          |                189 ms |
+| Rust       | reqwest           |                191 ms |
 | PHP        | file_get_contents |                  - ms |
 
 ### Important Note for Contributors:

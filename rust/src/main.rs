@@ -1,20 +1,32 @@
 use reqwest;
-use std::time::Instant;
-use tokio;
+use std::sync::Arc;
+use std::time::{Duration, Instant};
 
-#[tokio::main]
-async fn main() -> Result<(), reqwest::Error> {
-    let url = "https://example.com/";
+fn main() -> Result<(), reqwest::Error> {
+    let total_requests = 100;
+    let url = "https://example.com";
 
-    let start = Instant::now(); // Zaman ölçümünü başlat
+    let client = Arc::new(reqwest::blocking::Client::new());
+    let start = Instant::now();
 
-    let res = reqwest::get(url).await?;
+    let mut success_count = 0;
+    for _ in 0..total_requests {
+        let client = Arc::clone(&client);
 
-    let duration = start.elapsed(); // Geçen süreyi hesapla
+        let response = client.get(url).send()?;
+        if response.status().is_success() {
+            success_count += 1;
+        }
+    }
 
-    println!("Status Code: {}", res.status());
+    let duration = start.elapsed();
+    let average_duration = duration / total_requests as u32;
 
-    println!("Request completed in: {:?}", duration); // Süreyi ekrana yazdır
+    println!("Total requests: {}", total_requests);
+    println!("Successful responses: {}", success_count);
+    println!("Total duration: {:?}", duration);
+    println!("Average duration: {:?}", average_duration);
 
     Ok(())
 }
+

@@ -5,15 +5,12 @@ function makeRequest() {
 
     $start = microtime(true);
 
-    // HTTP GET isteğini yap
     $response = file_get_contents($url);
 
-    // Yanıtı oku (burada içeriği yazdırmıyoruz)
     $data = json_decode($response, true);
 
     $end = microtime(true);
 
-    // Süreyi milisaniye cinsinden döndür
     return ($end - $start) * 1000;
 }
 
